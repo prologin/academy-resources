@@ -45,7 +45,7 @@ async def on_raw_reaction_add(payload):
     reaction = payload.emoji
     print(f"{username} added a {reaction.name} react.")
     if channel.id == CHANNEL_ACCUEIL_ID:
-        if reaction.name == "👌":
+        if reaction.name == '\N{OK HAND SIGN}':
             await username.send(WELCOME_DM)
 
 #
@@ -75,8 +75,8 @@ async def on_message(message):
 
     channel = bot.get_channel(CHANNEL_PRESENTATIONS_ID)
     msg = await channel.send(embed=embed)
-    await msg.add_reaction("✅")
-    await msg.add_reaction("❌")
+    await msg.add_reaction('\N{WHITE HEAVY CHECK MARK}')
+    await msg.add_reaction('\N{CROSS MARK}')
 
 #
 #   Main code for bot
