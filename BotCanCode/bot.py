@@ -1,12 +1,12 @@
 import discord
-from discord.ext import commands
+import os
+
 
 #
 #   Constants
 #
 
-bot = commands.Bot(command_prefix='.')
-bot.remove_command('help')
+bot = discord.Client()
 
 SERVER_ID = 702970602427777024
 CHANNEL_ACCUEIL_ID = 702986042604781630
@@ -16,6 +16,7 @@ ROLE_PARTICIPANT = 702976876003590276
 ROLE_ORGANIZER = 702976196173889557
 
 WELCOME_DM = ''.join(open('welcome_text').readlines())
+
 
 #
 #   Basics
@@ -85,7 +86,5 @@ async def on_message(message):
 #
 
 if __name__ == '__main__':
-    with open('tok.en') as f:
-        token = f.read()
-
+    token = os.getenv('BOT_TOKEN')
     bot.run(token)
