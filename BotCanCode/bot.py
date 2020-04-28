@@ -84,7 +84,7 @@ async def on_message(message):
 
 if __name__ == '__main__':
     with open('tok.en') as f:
-       token = f.read()
 
+        token = f.read()
 
     bot.run(token)
