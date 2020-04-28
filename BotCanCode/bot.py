@@ -39,9 +39,7 @@ async def on_member_join(member):
 @bot.event
 async def on_raw_reaction_add(payload):
     channel = bot.get_channel(payload.channel_id)
-    message = await channel.fetch_message(payload.message_id)
     username = bot.get_user(payload.user_id)
-    content = message.content
     reaction = payload.emoji
     print(f"{username} added a {reaction.name} react.")
     if channel.id == CHANNEL_ACCUEIL_ID:
