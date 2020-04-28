@@ -29,7 +29,7 @@ async def on_ready():
 @bot.event
 async def on_member_join(member):
     server = bot.get_guild(SERVER_ID)
-    role_tmp = discord.utils.get(server.roles, id=ROLE_TMP)
+    role_tmp = server.get_role(ROLE_TMP)
     await member.add_roles(role_tmp)
 
 #
@@ -58,8 +58,8 @@ async def on_message(message):
         return
 
     server = bot.get_guild(SERVER_ID)
-    role_participant = discord.utils.get(server.roles, id=ROLE_PARTICIPANT)
-    role_organizer = discord.utils.get(server.roles, id=ROLE_ORGANIZER)
+    role_participant = server.get_role(ROLE_PARTICIPANT)
+    role_organizer = server.get_role(ROLE_ORGANIZER)
     member = server.get_member(message.author.id)
     if not member:
         await message.author.send('Vous n\'avez pas le droit de m\'ecrire...')
