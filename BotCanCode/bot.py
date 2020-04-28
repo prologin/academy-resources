@@ -21,27 +21,28 @@ WELCOME_DM = ''.join(open('welcome_text').readlines())
 #   Basics
 #
 
+
 @bot.event
 async def on_ready():
     await bot.change_presence(activity=discord.Game('42'))
     print('Bot is ready')
 
+
 @bot.event
 async def on_member_join(member):
     server = bot.get_guild(SERVER_ID)
-    role_tmp = discord.utils.get(server.roles, id=ROLE_TMP)
+    role_tmp = server.get_role(ROLE_TMP)
     await member.add_roles(role_tmp)
 
 #
 #   Handling reactions on welcome message
 #
 
+
 @bot.event
 async def on_raw_reaction_add(payload):
     channel = bot.get_channel(payload.channel_id)
-    message = await channel.fetch_message(payload.message_id)
     username = bot.get_user(payload.user_id)
-    content = message.content
     reaction = payload.emoji
     print(f"{username} added a {reaction.name} react.")
     if channel.id == CHANNEL_ACCUEIL_ID:
@@ -52,14 +53,15 @@ async def on_raw_reaction_add(payload):
 #   Transfer DM presentation to correct private channel
 #
 
+
 @bot.event
 async def on_message(message):
     if message.author == bot.user or message.guild is not None:
         return
 
     server = bot.get_guild(SERVER_ID)
-    role_participant = discord.utils.get(server.roles, id=ROLE_PARTICIPANT)
-    role_organizer = discord.utils.get(server.roles, id=ROLE_ORGANIZER)
+    role_participant = server.get_role(ROLE_PARTICIPANT)
+    role_organizer = server.get_role(ROLE_ORGANIZER)
     member = server.get_member(message.author.id)
     if not member:
         await message.author.send('Vous n\'avez pas le droit de m\'ecrire...')
@@ -84,7 +86,6 @@ async def on_message(message):
 
 if __name__ == '__main__':
     with open('tok.en') as f:
-       token = f.read()
-
+        token = f.read()
 
     bot.run(token)
