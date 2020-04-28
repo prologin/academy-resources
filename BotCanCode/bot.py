@@ -21,10 +21,12 @@ WELCOME_DM = ''.join(open('welcome_text').readlines())
 #   Basics
 #
 
+
 @bot.event
 async def on_ready():
     await bot.change_presence(activity=discord.Game('42'))
     print('Bot is ready')
+
 
 @bot.event
 async def on_member_join(member):
@@ -35,6 +37,7 @@ async def on_member_join(member):
 #
 #   Handling reactions on welcome message
 #
+
 
 @bot.event
 async def on_raw_reaction_add(payload):
@@ -49,6 +52,7 @@ async def on_raw_reaction_add(payload):
 #
 #   Transfer DM presentation to correct private channel
 #
+
 
 @bot.event
 async def on_message(message):
