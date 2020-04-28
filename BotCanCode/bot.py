@@ -21,10 +21,12 @@ WELCOME_DM = ''.join(open('welcome_text').readlines())
 #   Basics
 #
 
+
 @bot.event
 async def on_ready():
     await bot.change_presence(activity=discord.Game('42'))
     print('Bot is ready')
+
 
 @bot.event
 async def on_member_join(member):
@@ -36,12 +38,11 @@ async def on_member_join(member):
 #   Handling reactions on welcome message
 #
 
+
 @bot.event
 async def on_raw_reaction_add(payload):
     channel = bot.get_channel(payload.channel_id)
-    message = await channel.fetch_message(payload.message_id)
     username = bot.get_user(payload.user_id)
-    content = message.content
     reaction = payload.emoji
     print(f"{username} added a {reaction.name} react.")
     if channel.id == CHANNEL_ACCUEIL_ID:
@@ -51,6 +52,7 @@ async def on_raw_reaction_add(payload):
 #
 #   Transfer DM presentation to correct private channel
 #
+
 
 @bot.event
 async def on_message(message):
@@ -84,7 +86,6 @@ async def on_message(message):
 
 if __name__ == '__main__':
     with open('tok.en') as f:
-       token = f.read()
-
+        token = f.read()
 
     bot.run(token)
