@@ -1,3 +1,4 @@
+import conf
 import discord
 import os
 
@@ -7,13 +8,6 @@ import os
 #
 
 bot = discord.Client()
-
-SERVER_ID = 702970602427777024
-CHANNEL_ACCUEIL_ID = 702986042604781630
-CHANNEL_PRESENTATIONS_ID = 702979184565420032
-ROLE_TMP = 703011182491205652
-ROLE_PARTICIPANT = 702976876003590276
-ROLE_ORGANIZER = 702976196173889557
 
 WELCOME_DM = ''.join(open('welcome_text').readlines())
 
@@ -31,8 +25,8 @@ async def on_ready():
 
 @bot.event
 async def on_member_join(member):
-    server = bot.get_guild(SERVER_ID)
-    role_tmp = server.get_role(ROLE_TMP)
+    server = bot.get_guild(conf.SERVER_ID)
+    role_tmp = server.get_role(conf.ROLE_TMP)
     await member.add_roles(role_tmp)
 
 #
@@ -46,7 +40,7 @@ async def on_raw_reaction_add(payload):
     username = bot.get_user(payload.user_id)
     reaction = payload.emoji
     print(f"{username} added a {reaction.name} react.")
-    if channel.id == CHANNEL_ACCUEIL_ID:
+    if channel.id == conf.CHANNEL_ACCUEIL_ID:
         if reaction.name == '\N{OK HAND SIGN}':
             await username.send(WELCOME_DM)
 
@@ -60,9 +54,9 @@ async def on_message(message):
     if message.author == bot.user or message.guild is not None:
         return
 
-    server = bot.get_guild(SERVER_ID)
-    role_participant = server.get_role(ROLE_PARTICIPANT)
-    role_organizer = server.get_role(ROLE_ORGANIZER)
+    server = bot.get_guild(conf.SERVER_ID)
+    role_participant = server.get_role(conf.ROLE_PARTICIPANT)
+    role_organizer = server.get_role(conf.ROLE_ORGANIZER)
     member = server.get_member(message.author.id)
     if not member:
         await message.author.send('Vous n\'avez pas le droit de m\'ecrire...')
@@ -76,7 +70,7 @@ async def on_message(message):
     embed.set_author(name=message.author)
     embed.add_field(name='Presentation', value=message.content, inline=False)
 
-    channel = bot.get_channel(CHANNEL_PRESENTATIONS_ID)
+    channel = bot.get_channel(conf.CHANNEL_PRESENTATIONS_ID)
     msg = await channel.send(embed=embed)
     await msg.add_reaction('\N{WHITE HEAVY CHECK MARK}')
     await msg.add_reaction('\N{CROSS MARK}')
@@ -86,5 +80,4 @@ async def on_message(message):
 #
 
 if __name__ == '__main__':
-    token = os.getenv('BOT_TOKEN')
-    bot.run(token)
+    bot.run(conf.BOT_TOKEN)
