@@ -1,16 +1,9 @@
 import conf
 import discord
 import os
-
-
-#
-#   Constants
-#
+import botstring
 
 bot = discord.Client()
-
-WELCOME_DM = ''.join(open('welcome_text').readlines())
-
 
 #
 #   Basics
@@ -39,10 +32,9 @@ async def on_raw_reaction_add(payload):
     channel = bot.get_channel(payload.channel_id)
     username = bot.get_user(payload.user_id)
     reaction = payload.emoji
-    print(f"{username} added a {reaction.name} react.")
     if channel.id == conf.CHANNEL_ACCUEIL_ID:
         if reaction.name == '\N{OK HAND SIGN}':
-            await username.send(WELCOME_DM)
+            await username.send(botstring.WELCOME_DM)
 
 #
 #   Transfer DM presentation to correct private channel
@@ -59,16 +51,16 @@ async def on_message(message):
     role_organizer = server.get_role(conf.ROLE_ORGANIZER)
     member = server.get_member(message.author.id)
     if not member:
-        await message.author.send('Vous n\'avez pas le droit de m\'ecrire...')
+        await message.author.send(botstring.BANNED)
         return
 
     if role_participant in member.roles or role_organizer in member.roles:
-        await message.author.send("Cela ne sert plus a rien de me parler !")
+        await message.author.send(botstring.ALREADY_ACCEPTED)
         return
 
     embed = discord.Embed(title='', colour=discord.Colour.green())
     embed.set_author(name=message.author)
-    embed.add_field(name='Presentation', value=message.content, inline=False)
+    embed.add_field(name='Présentation', value=message.content, inline=False)
 
     channel = bot.get_channel(conf.CHANNEL_PRESENTATIONS_ID)
     msg = await channel.send(embed=embed)
