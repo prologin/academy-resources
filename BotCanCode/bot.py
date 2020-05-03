@@ -1,7 +1,7 @@
 import conf
 import discord
 import os
-import botstring
+import strings
 
 bot = discord.Client()
 
