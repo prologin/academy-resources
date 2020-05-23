@@ -34,7 +34,7 @@ async def on_raw_reaction_add(payload):
     reaction = payload.emoji
     if channel.id == conf.CHANNEL_ACCUEIL_ID:
         if reaction.name == '\N{OK HAND SIGN}':
-            await username.send(botstring.WELCOME_DM)
+            await username.send(strings.WELCOME_DM)
 
 #
 #   Transfer DM presentation to correct private channel
@@ -51,11 +51,11 @@ async def on_message(message):
     role_organizer = server.get_role(conf.ROLE_ORGANIZER)
     member = server.get_member(message.author.id)
     if not member:
-        await message.author.send(botstring.BANNED)
+        await message.author.send(strings.BANNED)
         return
 
     if role_participant in member.roles or role_organizer in member.roles:
-        await message.author.send(botstring.ALREADY_ACCEPTED)
+        await message.author.send(strings.ALREADY_ACCEPTED)
         return
 
     embed = discord.Embed(title='', colour=discord.Colour.green())
