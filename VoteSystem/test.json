@@ -1,0 +1,22 @@
+{
+    "projects": [
+        {
+            "index":0,
+            "project_name": "Maze Solver",
+            "description":"Slow maze solver in python",
+            "votes":1
+        },
+        {
+            "index":1,
+            "project_name": "Sudoku Solver",
+            "description":"Sudoku solver in python",
+            "votes":3
+        },
+        {
+            "index":2,
+            "project_name": "Video game",
+            "description":"Basic video game implemented with pygame",
+            "votes":5
+        }
+    ]
+}
