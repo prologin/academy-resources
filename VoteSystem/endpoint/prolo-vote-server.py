@@ -13,7 +13,9 @@ import argparse
 import http.server
 import json
 
-FILENAME = "/data/votes.json"
+FILENAME = "votes.json"
+VOTERS = list()
+
 
 class VoteServer(http.server.BaseHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
@@ -49,6 +51,16 @@ class VoteServer(http.server.BaseHTTPRequestHandler):
                 "Le JSON ne contient pas de champ 'vote'.".encode()
             )
             return
+
+        if self.client_address[0] in VOTERS:
+            self.send_response(401)
+            self.end_headers()
+            self.wfile.write(
+                "Vous avez déjà voté.".encode()
+            )
+            return
+
+        VOTERS.append(self.client_address[0])
 
         try:
             self.data['projects'][data['vote']]['votes'] += 1
