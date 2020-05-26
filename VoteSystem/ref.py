@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-# pip install requests
 import requests
 
 PROMPT = '>>> '
@@ -42,7 +41,7 @@ class Voter:
         v = int(input('Input the project index you want to vote for: '))
         dic = {}
         dic['vote'] = v
-        dict['name'] = input("Enter your name: ")
+        dic['name'] = input("Enter your name: ")
         response = requests.post(url=self.endpoint, json=dic)
         print(f'Response: {response.text}')
 
@@ -65,7 +64,7 @@ if __name__ == '__main__':
             elif cmd == 'display':
                 voter.display()
             elif cmd == 'vote':
-                voter.vote(v)
+                voter.vote()
             elif cmd == 'help':
                 print('Allowed commands: ', end='')
                 for cmd in allowed_cmds:

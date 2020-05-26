@@ -39,15 +39,15 @@ méthode `requests.get()` ;
 * `display(self)` : cette méthode affiche les informations récupérées
 après avoir utilise `fetch()`. Libre à vous de choisir sous quelle forme vous
 souhaitez afficher votre dictionnaire.
-* `vote(self)` : cette méthode demande a l'utilisateur l'index du projet pour
+* `vote(self)` : cette méthode demande a l'utilisateur l'indice du projet pour
 lequel il veut voter, et aussi son nom pour qu'on puisse tracer qui a vote
 pour quel projet. Enfin, elle effectue une requete de type `POST` vers le
 serveur afin de demander la modification des informations, on parle bien ici de
 faire entendre votre voix dans ce vote ! Pour cela, il vous faudra envoyer un
-json contenant un champ "vote" dont la valeur doit être l'index du projet
+json contenant un champ "vote" dont la valeur doit être l'indice du projet
 pour lequel vous votez, et un champ "name" contenant le nom de l'utilisateur.
 Vous aurez donc besoin d'afficher le dictionnaire auparavant pour prendre
-connaissance de ces index. Pensez à jeter un oeil à la documentation de la
+connaissance de ces indice. Pensez à jeter un oeil à la documentation de la
 méthode `requests.post()`.
 
 Votre Voteur contient donc deux attributs :
