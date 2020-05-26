@@ -17,7 +17,7 @@ FILENAME = "/data/votes.json"
 
 class VoteServer(http.server.BaseHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
-        with open(FILEAME, "r") as fp:
+        with open(FILENAME, "r") as fp:
             self.data = json.load(fp)
 
         super().__init__(*args, **kwargs)
