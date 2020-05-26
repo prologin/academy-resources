@@ -35,12 +35,14 @@ class Voter:
             print(f'{item["description"]} ({item["votes"]})')
 
 
-    def vote(self, index):
+    def vote(self):
         """
         Envoie le vote au serveur sous la forme d'un dictionnaire
         """
+        v = int(input('Input the project index you want to vote for: '))
         dic = {}
-        dic['vote'] = index
+        dic['vote'] = v
+        dict['name'] = input("Enter your name: ")
         response = requests.post(url=self.endpoint, json=dic)
         print(f'Response: {response.text}')
 
@@ -63,7 +65,6 @@ if __name__ == '__main__':
             elif cmd == 'display':
                 voter.display()
             elif cmd == 'vote':
-                v = input('Input the project index you want to vote for: ')
                 voter.vote(v)
             elif cmd == 'help':
                 print('Allowed commands: ', end='')
