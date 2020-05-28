@@ -13,20 +13,22 @@ import argparse
 import http.server
 import json
 
-FILENAME = "/data/votes.json"
+FILENAME = "/prolovote-data/votes.json"
+VOTERS = list()
+
+with open(FILENAME, "r") as fp:
+    DATA = json.load(fp)
+
+for project in DATA['projects']:
+    project['votes'] = 0
 
 class VoteServer(http.server.BaseHTTPRequestHandler):
-    def __init__(self, *args, **kwargs):
-        with open(FILENAME, "r") as fp:
-            self.data = json.load(fp)
-
-        super().__init__(*args, **kwargs)
 
     def do_GET(self):
         self.send_response(200)
         self.send_header("Content-type", "text/json")
         self.end_headers()
-        self.wfile.write(json.dumps(self.data).encode())
+        self.wfile.write(json.dumps(DATA).encode())
 
     def do_POST(self):
         content_length = int(self.headers.get("Content-Length", 0))
@@ -50,8 +52,18 @@ class VoteServer(http.server.BaseHTTPRequestHandler):
             )
             return
 
+        if self.client_address[0] in VOTERS:
+            self.send_response(401)
+            self.end_headers()
+            self.wfile.write(
+                "Vous avez déjà voté.".encode()
+            )
+            return
+
+        VOTERS.append(self.client_address[0])
+
         try:
-            self.data['projects'][data['vote']]['votes'] += 1
+            DATA['projects'][data['vote']]['votes'] += 1
         except:
             self.send_response(500)
             self.end_headers()
@@ -61,7 +73,7 @@ class VoteServer(http.server.BaseHTTPRequestHandler):
             return
 
         with open(FILENAME, "w") as fp:
-            json.dump(self.data, fp)
+            json.dump(DATA, fp)
 
         self.send_response(200)
         self.end_headers()
