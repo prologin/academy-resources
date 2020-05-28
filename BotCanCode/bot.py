@@ -13,13 +13,14 @@ bot = discord.Client()
 @bot.event
 async def on_ready():
     await bot.change_presence(activity=discord.Game('42'))
-    print('Bot is ready')
+    print('>>> Bot is ready.')
 
 
 @bot.event
 async def on_member_join(member):
     server = bot.get_guild(conf.SERVER_ID)
     role_tmp = server.get_role(conf.ROLE_TMP)
+    print('>>> {member.nick} joined the server.')
     await member.add_roles(role_tmp)
 
 #
@@ -33,6 +34,7 @@ async def on_raw_reaction_add(payload):
     username = bot.get_user(payload.user_id)
     reaction = payload.emoji
     if channel.id == conf.CHANNEL_ACCUEIL_ID:
+        print('>>> {username} added a {reaction.name} react.')
         if reaction.name == '\N{OK HAND SIGN}':
             await username.send(strings.WELCOME_DM)
 
@@ -45,6 +47,8 @@ async def on_raw_reaction_add(payload):
 async def on_message(message):
     if message.author == bot.user or message.guild is not None:
         return
+
+    print('>>> {message.author} sent a message to the bot:\n"{message.content}".')
 
     server = bot.get_guild(conf.SERVER_ID)
     role_participant = server.get_role(conf.ROLE_PARTICIPANT)
