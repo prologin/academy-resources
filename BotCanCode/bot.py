@@ -20,14 +20,14 @@ bot = commands.Bot(command_prefix='!')
 @bot.event
 async def on_ready():
     await bot.change_presence(activity=discord.Game('Learning Python'))
-    print('>>> Bot is ready.')
+    print('>>> Bot is ready.', flush=True)
 
 
 @bot.event
 async def on_member_join(member):
     server = bot.get_guild(conf.SERVER)
     role_tmp = server.get_role(conf.ROLE_TMP)
-    print(f'>>> {member.nick} joined the server.')
+    print(f'>>> {member.nick} joined the server.', flush=True)
     await member.add_roles(role_tmp)
 
 
@@ -42,7 +42,7 @@ async def on_raw_reaction_add(payload):
     username = bot.get_user(payload.user_id)
     reaction = payload.emoji
     if channel.id == conf.CHANNEL_ACCUEIL:
-        print(f'>>> {username} added a {reaction.name} react.')
+        print(f'>>> {username} added a {reaction.name} react.', flush=True)
         if reaction.name == '\N{OK HAND SIGN}':
             await username.send(strings.WELCOME_DM)
 
@@ -61,7 +61,7 @@ async def on_message(message):
         await bot.process_commands(message)
         return
 	
-    print(f'>>> {message.author} sent a message to the bot:\n"{message.content}".')
+    print(f'>>> {message.author} sent a message to the bot:\n"{message.content}".', flush=True)
 
     server = bot.get_guild(conf.SERVER)
     role_participant = server.get_role(conf.ROLE_PARTICIPANT)
@@ -114,22 +114,22 @@ def read_template(filename):
             template_file_content = template_file.read()
 
     except OSError as e:
-        print(f"bot-can-code: {e.strerror}", file=sys.stderr)
+        print(f"bot-can-code: {e.strerror}", file=sys.stderr, flush=True)
 
     return Template(template_file_content)
 
 
 @bot.command()
 async def notif(ctx, activity, time):
-    print('>>> Entered notif command')
+    print('>>> Entered notif command', flush=True)
 
     if ctx.channel.id != conf.CHANNEL_BOT:
-        print('>>> Invalid channel')
+        print('>>> Invalid channel', flush=True)
         return
 
     msg = f'Session "{activity}" prévue à {time}'
 
-    print(f'>>> Trying to send {msg}')
+    print(f'>>> Trying to send {msg}', flush=True)
 
     server = bot.get_guild(conf.SERVER)
 
@@ -143,7 +143,7 @@ async def notif(ctx, activity, time):
     # ping @Partipant on #general
 
     role_participant = server.get_role(conf.ROLE_PARTICIPANT)
-    channel = bot.get_channel(conf.CHANNEL_GENERAL)
+    channel = bot.get_channel(conf.CHANNEL_NEWS)
     await channel.send(f'{role_participant.mention} {msg}')
 
 
@@ -156,18 +156,18 @@ async def notif(ctx, activity, time):
     message_template = read_template('message.txt')
 
     for name, email in contacts.items():
-        print(f'>>> Trying to email {name}:{email}')
+        print(f'>>> Trying to email {name}:{email}', flush=True)
         msg = MIMEMultipart()
         message = message_template.substitute(PERSON_NAME=name, ACTIVITY=activity, TIME=time)
 
         msg['From'] = conf.MAIL_ADDRESS
         msg['To'] = email
-        msg['Subject'] = f'[PROLOCADEMY] Session "{activity}" à {time}'
+        msg['Subject'] = f'[Académie Prologin] Session "{activity}" à {time}'
 
         msg.attach(MIMEText(message, 'plain'))
 
         conn.send_message(msg)
-        print('>>> msg should be sent')
+        print('>>> msg should be sent', flush=True)
 
         del msg
 
