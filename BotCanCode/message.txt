@@ -1,9 +1,0 @@
-Bonjour ${PERSON_NAME},
-
-On démarre une session ${ACTIVITY} à ${TIME} sur le serveur Discord,
-n'hésites pas à nous rejoindre sur le channel vocal Public #1 !
-
-Prologinement,
-
--- 
-L'équipe Prologin

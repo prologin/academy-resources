@@ -1,13 +1,13 @@
-from discord.ext import commands
+import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from string import Template
-import conf
-import discord
-import os
-import smtplib
-import strings
 
+import discord
+from discord.ext import commands
+
+import conf
+import strings
 
 bot = commands.Bot(command_prefix='!')
 
@@ -153,7 +153,7 @@ async def notif(ctx, activity, time):
     conn.login(conf.MAIL_ADDRESS, conf.MAIL_PASSWORD)
 
     contacts = get_contacts('contacts.csv')
-    message_template = read_template('message.txt')
+    message_template = read_template(conf.NEW_ACTIVITY_TEMPLATE)
 
     for name, email in contacts.items():
         print(f'>>> Trying to email {name}:{email}', flush=True)

@@ -12,3 +12,5 @@ ROLE_ORGANIZER=702976196173889557
 MAIL_ADDRESS='botcancode@prologin.org'
 MAIL_HOST='smtp.gmail.com'
 MAIL_PORT=587
+
+NEW_ACTIVITY_TEMPLATE='template/activity.txt'
